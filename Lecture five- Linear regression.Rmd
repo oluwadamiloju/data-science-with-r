@@ -1,0 +1,97 @@
+---
+title: "Lecture five- Linear regression"
+author: "Sarah"
+date: "8/11/2021"
+output: html_document
+---
+
+
+```{r}
+dt<-read.csv("Gym.csv", header = T)
+```
+
+```{r}
+library("ggplot2")
+```
+
+```{r}
+p<-ggplot(dt, aes(x=Age, y=Income)) + geom_point() + labs(title="Relationship between Income and Age of customers", x="Age of customers", y="Income of customers")
+```
+
+```{r}
+p
+```
+
+```{r}
+m1<-lm(Income~Age, data = dt)
+```
+
+```{r}
+summary(m1)
+```
+
+```{r}
+hist(m1$residuals, xlab="Residuals", main="Histogram of Residuals")
+```
+
+```{r}
+m2<-lm(Income~Age+Education, data = dt)
+```
+
+```{r}
+summary(m2)
+```
+
+```{r}
+newdata<-data.frame(Age=c(50), Education=c(15))
+```
+
+```{r}
+predict(m2, newdata=newdata, interval = 'prediction')
+```
+
+```{r}
+projectdt<-read.csv("Assessment/Dataset.csv", header = T)
+```
+
+```{r}
+p2<-ggplot(projectdt, aes(x=acs_k3, y=api00))+geom_point()+
+labs(title = "Relationship between average class size and academic performance",
+x="Average class size", y="Academic performace")
+```
+
+```{r}
+p2
+```
+
+```{r}
+m3<-lm(api00~acs_k3, data = projectdt)
+```
+
+```{r}
+summary(m3)
+```
+
+```{r}
+m4<-lm(api00~meals, data = projectdt)
+```
+
+```{r}
+summary(m4)
+```
+
+```{r}
+m5<-lm(api00~full, data = projectdt)
+```
+
+```{r}
+summary(m5)
+```
+
+```{r}
+m6<-lm(api00~acs_k3+meals+full, data = projectdt)
+```
+
+```{r}
+summary(m6)
+```

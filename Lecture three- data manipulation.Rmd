@@ -1,0 +1,152 @@
+---
+title: "Lecture three- data manipulation"
+author: "Sarah"
+date: "8/11/2021"
+output: html_document
+---
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(readxl)
+```
+
+```{r}
+dta<-read_excel("mbta.xlsx", skip=1, range=cell_cols(2:60))
+```
+
+```{r}
+dta_1 <- dta%>%gather(`2007-01`:`2011-10`,
+key = "year", value = "passengers")
+dta_1[1:4,]
+```
+
+```{r}
+dta_2<-dta_1%>%separate(year, into=c("year", "month"))
+dta_2[1:4]
+```
+
+```{r}
+dta_3<-dta_2%>%spread(mode, passengers)
+dta_3[1:4,]
+```
+
+```{r}
+dta_4 <- dta_3%>% .[,c(1:2,6:8)]
+```
+
+```{r}
+dta_5<-dta_4%>%gather(`Commuter Rail`:`Light Rail`, key="rail_type", value = passengers)
+```
+
+```{r}
+library(hflights)
+```
+
+```{r}
+data(hflights)
+```
+
+```{r}
+hflights[1:4,1:4]
+```
+
+```{r}
+data(hflights)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+f1<-hflights %>% filter(Year == 2011, Month == 2)
+```
+
+```{r}
+f1[1:4,1:4]
+```
+
+```{r}
+f2<-filter(hflights, Dest %in% c("BOS", "LAS"))
+```
+
+```{r}
+f2[1:4,12:15]
+```
+
+```{r}
+f3<-filter(hflights, between(Distance, 224, 944))
+```
+
+```{r}
+f3[1:6,13:16]
+```
+
+
+```{r}
+f4<-hflights %>% filter(Year == 2011, Month == 4)
+```
+
+```{r}
+f4
+```
+
+```{r}
+f5<-filter(hflights, UniqueCarrier %in% c("AA", "WN"))
+```
+
+```{r}
+f5
+```
+
+```{r}
+arr<-arrange(hflights, Year, Month)
+```
+
+```{r}
+arr[1:6, 1:6]
+```
+
+```{r}
+arr1<-arrange(hflights, desc(DepTime))
+```
+
+```{r}
+arr1[1:6, 1:6]
+```
+
+```{r}
+sel<-select(hflights, Year, Month, FlightNum, AirTime)
+sel[1:4,]
+```
+
+```{r}
+sel_2<-select(hflights, starts_with("Dep"),
+ends_with("Delay"))
+```
+
+```{r}
+sel_2[1:4,]
+```
+
+
+```{r}
+mut<-hflights %>%
+select(ends_with("Delay"), Distance, AirTime) %>%
+mutate(time_gain = ArrDelay - DepDelay,
+speed = Distance / AirTime * 60
+)
+mut[1:4,1:6]
+```
+
+```{r}
+summarise(hflights, Delay = sum(DepDelay, na.rm = TRUE))
+```
+
+```{r}
+hflights %>%
+  group_by(UniqueCarrier) %>%
+  summarise(delay = mean(DepDelay, na.rm = TRUE)) %>% arrange(desc(delay))
+```

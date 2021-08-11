@@ -1,0 +1,69 @@
+---
+title: "Lecture-two-and-three"
+author: "Sarah"
+date: "7/9/2021"
+output: html_document
+---
+
+```{r}
+dt<-read.table("Gym.csv", sep=',',header=T)
+tail(dt)
+```
+
+```{r}
+automobile<-read.table("auto.txt", sep=',', header=F)
+table<-automobile[1:4, 1:6]
+table
+```
+
+```{r}
+potahto<-read.table("potatoes.txt", sep="\t", header=F)
+Pot<-potahto[1:4,]
+Pot
+```
+
+```{r}
+wuraolaJohnson<-read.table("who_2_semi.csv", sep=";", header=T)
+wura<-wuraolaJohnson[1:4, 1:4]
+wura
+```
+
+```{r}
+tutu<-read.csv("who_1.csv", header=T)
+tu<-tutu[1:4, 1:4]
+tu
+```
+
+```{r}
+rara<-read.csv2("who_2_semi.csv", sep=";", header=T)
+ra<-wuraolaJohnson[1:4, 1:4]
+ra
+```
+
+```{r}
+library(readxl)
+sht1<-read_excel("Employees.xlsx", sheet=1)
+sht2<-read_excel("Employees.xlsx", sheet=2)
+sht<-sht1[1:4, 1:4]
+sht
+```
+
+```{r}
+library(DBI)
+library(RMySQL)
+host <- "courses.csrrinzqubik.us-east-1.rds.amazonaws.com"
+connect <- dbConnect(RMySQL::MySQL(), dbname = "tweater",
+host = host, port = 3306, user = "student", password =
+"datacamp")
+tables<-dbListTables(connect)
+tables
+```
+
+```{r}
+users<-dbReadTable(connect, "users")
+users
+```
+
+```{r}
+write.csv(users, file="users.csv")
+```
